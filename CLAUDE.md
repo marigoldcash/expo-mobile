@@ -7,3 +7,5 @@ This is the Marigold phone wallet: one Expo project (React Native, TypeScript) f
 Commits are authored as `Dom <leancode@users.noreply.github.com>` with the step ID first in the message and no AI attribution anywhere. Everything a person can read in the app is written for someone's grandmother: the smallest unit is the petal, the money bucket is a wallet, errors say what happened and what to do. Secrets (signing keys, store credentials, the updater key) never enter the repository.
 
 Two skills under `.claude/skills` apply to every Markdown edit and every commit message here; read them before the first of each.
+
+Expo changes with every SDK release, and `AGENTS.md` (from Expo's own template) says to read the versioned documentation for the installed `expo` version before writing any code that touches an Expo, EAS or React Native API. Follow it.
