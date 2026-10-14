@@ -27,7 +27,7 @@ const LAYOUT = {
   ],
   android: [
     { from: 'jniLibs/', to: path.join(MODULE, 'android', 'src', 'main', 'jniLibs') },
-    { from: 'kotlin/', to: path.join(MODULE, 'android', 'src', 'main', 'java') },
+    { from: 'kotlin/', to: path.join(MODULE, 'android', 'src', 'main', 'generated') },
   ],
 };
 /** One file of each kind that must be there, or the zip is not the core. */

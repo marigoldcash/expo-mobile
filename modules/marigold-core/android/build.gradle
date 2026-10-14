@@ -12,6 +12,10 @@ android {
     versionCode 1
     versionName "0.1.0"
   }
+  sourceSets {
+    // The Kotlin binding that scripts/fetch-core.js unpacks from the core's release asset.
+    main.java.srcDirs += 'src/main/generated'
+  }
   lintOptions {
     abortOnError false
   }

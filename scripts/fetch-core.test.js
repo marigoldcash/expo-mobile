@@ -57,7 +57,7 @@ describe('the pinned release', () => {
     expect(fs.readFileSync(path.join(moduleDir(), 'ios/Generated/MarigoldCore.swift'), 'utf8')).toBe('// swift');
     expect(fs.readFileSync(path.join(moduleDir(), 'ios/Frameworks/MarigoldCore.xcframework/ios-arm64-simulator/libkaspa_wallet_service.a'), 'utf8')).toBe('simulator');
     expect(fs.readFileSync(path.join(moduleDir(), 'android/src/main/jniLibs/x86_64/libkaspa_wallet_service.so'), 'utf8')).toBe('x86_64');
-    expect(fs.readFileSync(path.join(moduleDir(), 'android/src/main/java/cash/marigold/core/kaspa_wallet_service.kt'), 'utf8')).toBe('// kotlin');
+    expect(fs.readFileSync(path.join(moduleDir(), 'android/src/main/generated/cash/marigold/core/kaspa_wallet_service.kt'), 'utf8')).toBe('// kotlin');
   });
 
   it('refuses a wrong checksum and unpacks nothing, not even the asset that was right', async () => {
