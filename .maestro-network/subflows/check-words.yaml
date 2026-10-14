@@ -5,12 +5,10 @@ appId: cash.marigold.wallet
     id: "recovery-words"
 - evalScript: ${output.words = maestro.copiedText.trim().split(/\s+/)}
 - copyTextFrom:
-    text: "Word number .*"
-    index: 0
+    id: "check-1-label"
 - evalScript: ${output.first = parseInt(maestro.copiedText.replace(/[^0-9]/g, ''))}
 - copyTextFrom:
-    text: "Word number .*"
-    index: 1
+    id: "check-2-label"
 - evalScript: ${output.second = parseInt(maestro.copiedText.replace(/[^0-9]/g, ''))}
 - tapOn:
     id: "check-1"

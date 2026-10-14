@@ -48,7 +48,9 @@ export function Button({ label, onPress, testID, disabled, quiet }: { label: str
 export function Field({ label, testID, inputRef, ...input }: { label: string; testID: string; inputRef?: Ref<TextInput> } & TextInputProps) {
   return (
     <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label} testID={`${testID}-label`}>
+        {label}
+      </Text>
       <TextInput ref={inputRef} accessibilityLabel={label} autoCapitalize="none" autoCorrect={false} style={styles.input} testID={testID} {...input} />
     </View>
   );
