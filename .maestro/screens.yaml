@@ -111,6 +111,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "pin-old"
+    centerElement: true
 - tapOn:
     id: "pin-old"
 - inputText: "9999"
@@ -118,6 +119,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "pin-new"
+    centerElement: true
 - tapOn:
     id: "pin-new"
 - inputText: "5678"
@@ -125,6 +127,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "pin-new-again"
+    centerElement: true
 - tapOn:
     id: "pin-new-again"
 - inputText: "5678"
@@ -132,6 +135,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "change-pin"
+    centerElement: true
 - tapOn:
     id: "change-pin"
 - extendedWaitUntil:
@@ -140,6 +144,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "pin-old"
+    centerElement: true
     direction: UP
 - tapOn:
     id: "pin-old"
@@ -149,6 +154,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "change-pin"
+    centerElement: true
 - tapOn:
     id: "change-pin"
 - extendedWaitUntil:
@@ -158,6 +164,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "close-wallet"
+    centerElement: true
 
 # Close, open with the new PIN
 - tapOn:
@@ -198,6 +205,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "pin"
+    centerElement: true
 - tapOn:
     id: "pin"
 - inputText: "4321"
@@ -205,6 +213,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "pin-again"
+    centerElement: true
 - tapOn:
     id: "pin-again"
 - inputText: "4321"
@@ -212,6 +221,7 @@ appId: cash.marigold.wallet
 - scrollUntilVisible:
     element:
       id: "restore-wallet"
+    centerElement: true
 - tapOn:
     id: "restore-wallet"
 - extendedWaitUntil:
