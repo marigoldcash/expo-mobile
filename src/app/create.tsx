@@ -65,6 +65,8 @@ export default function Create() {
               label={`Word number ${place + 1}`}
               testID={`check-${i + 1}`}
               inputRef={i === 1 ? second : undefined}
+              keyboardType="visible-password"
+              spellCheck={false}
               returnKeyType={i === 0 ? 'next' : 'done'}
               onSubmitEditing={i === 0 ? () => second.current?.focus() : undefined}
               value={typed[i]}

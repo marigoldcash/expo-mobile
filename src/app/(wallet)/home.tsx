@@ -41,7 +41,7 @@ export default function Home() {
       <Body testID="balance">{balance}</Body>
       <Body testID="connection">{connection.words}</Body>
       <Title>Latest</Title>
-      <Body testID="latest">{history}</Body>
+      <Body testID="latest">{history || 'Nothing has come in or gone out yet.'}</Body>
       <Problem>{problem}</Problem>
     </Screen>
   );

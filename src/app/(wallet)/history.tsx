@@ -25,7 +25,7 @@ export default function History() {
   return (
     <Screen>
       <Title>History</Title>
-      <Body testID="history">{text}</Body>
+      <Body testID="history">{text || 'Nothing has come in or gone out yet.'}</Body>
       <Problem>{problem}</Problem>
     </Screen>
   );
