@@ -16,7 +16,7 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "pin-again"
 - inputText: "1234"
-- hideKeyboard
+- tapOn: "Make a new wallet"
 - tapOn:
     id: "make-wallet"
 - extendedWaitUntil:
@@ -37,7 +37,7 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "pin"
 - inputText: "9999"
-- hideKeyboard
+- tapOn: "Open phone"
 - tapOn:
     id: "open-wallet"
 - extendedWaitUntil:
@@ -48,7 +48,7 @@ appId: cash.marigold.wallet
     id: "pin"
 - eraseText: 20
 - inputText: "1234"
-- hideKeyboard
+- tapOn: "Open phone"
 - tapOn:
     id: "open-wallet"
 - extendedWaitUntil:

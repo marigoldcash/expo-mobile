@@ -16,7 +16,7 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "pin-again"
 - inputText: "1234"
-- hideKeyboard
+- tapOn: "Make a new wallet"
 - assertVisible:
     id: "use-biometrics"
 - tapOn:
