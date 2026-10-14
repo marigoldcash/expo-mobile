@@ -66,9 +66,9 @@ export default function Create() {
       <Text style={styles.label}>Its name</Text>
       <TextInput testID="wallet-name" style={styles.input} value={name} onChangeText={setName} placeholder="marigold" autoCapitalize="none" autoCorrect={false} />
       <Text style={styles.label}>A PIN, at least {MIN_PIN} characters</Text>
-      <TextInput testID="pin" style={styles.input} value={pin} onChangeText={setPin} secureTextEntry autoCapitalize="none" autoCorrect={false} />
+      <TextInput testID="pin" style={styles.input} value={pin} onChangeText={setPin} secureTextEntry textContentType="oneTimeCode" autoComplete="off" autoCapitalize="none" autoCorrect={false} />
       <Text style={styles.label}>The PIN once more</Text>
-      <TextInput testID="pin-again" style={styles.input} value={again} onChangeText={setAgain} secureTextEntry autoCapitalize="none" autoCorrect={false} />
+      <TextInput testID="pin-again" style={styles.input} value={again} onChangeText={setAgain} secureTextEntry textContentType="oneTimeCode" autoComplete="off" autoCapitalize="none" autoCorrect={false} />
       {canUseBiometrics ? (
         <View style={styles.row}>
           <Text style={styles.text}>Open it with Face ID or my fingerprint</Text>

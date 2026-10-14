@@ -48,7 +48,7 @@ export default function Open() {
         Open {wallet}
       </Text>
       <Text style={styles.label}>Your PIN</Text>
-      <TextInput testID="pin" style={styles.input} value={pin} onChangeText={setPin} secureTextEntry autoCapitalize="none" autoCorrect={false} onSubmitEditing={() => open(pin)} />
+      <TextInput testID="pin" style={styles.input} value={pin} onChangeText={setPin} secureTextEntry textContentType="oneTimeCode" autoComplete="off" autoCapitalize="none" autoCorrect={false} onSubmitEditing={() => open(pin)} />
       {busy && said ? <Text style={styles.text}>{said}</Text> : null}
       {problem ? (
         <Text testID="problem" style={styles.problem}>
