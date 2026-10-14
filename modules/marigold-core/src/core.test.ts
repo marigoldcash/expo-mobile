@@ -96,7 +96,12 @@ describe('every operation of the core', () => {
 describe('errors', () => {
   it('arrive as a WalletError with a code and the words to show', async () => {
     const { native, core } = standIn();
-    native.open.mockRejectedValueOnce(Object.assign(new Error("That is not this wallet's password."), { code: 'Failed' }));
+    // As Expo delivers it: wrapped, with its own code, and our marker in the words.
+    native.open.mockRejectedValueOnce(
+      Object.assign(new Error("Call to function 'MarigoldCore.open' has been rejected.\n→ Caused by: marigold:Failed:That is not this wallet's password."), {
+        code: 'ERR_FUNCTION_CALL_REJECTED',
+      }),
+    );
     const error = await core.open('ph', 'wrong').catch((e: unknown) => e);
     expect(error).toBeInstanceOf(WalletError);
     expect((error as WalletError).code).toBe('Failed');
@@ -106,7 +111,7 @@ describe('errors', () => {
   it('are the same for the calls that answer at once', () => {
     const { native, core } = standIn();
     native.payPreview.mockImplementationOnce(() => {
-      throw Object.assign(new Error('that is not an amount'), { code: 'Failed' });
+      throw Object.assign(new Error('marigold:Failed:that is not an amount'), { code: 'ERR_FUNCTION_CALL_REJECTED' });
     });
     expect(() => core.payPreview('x')).toThrow(WalletError);
   });

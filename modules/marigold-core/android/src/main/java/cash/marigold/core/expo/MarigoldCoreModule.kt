@@ -43,7 +43,7 @@ class MarigoldCoreModule : Module() {
 
     // Where the wallets live is the app's own files folder; the network is testnet-10 unless named.
     Function("configure") { network: String? ->
-      val context = appContext.reactContext ?: throw CodedException("NotConfigured", "The app is not ready yet.", null)
+      val context = appContext.reactContext ?: throw CodedException("NotConfigured", "marigold:NotConfigured:The app is not ready yet.", null)
       val folder = File(context.filesDir, "wallets").apply { mkdirs() }
       // An Android app has no home folder, and the wallet library looks for one (`~`) for its settings file.
       android.system.Os.setenv("HOME", context.filesDir.path, true)
@@ -94,18 +94,18 @@ class MarigoldCoreModule : Module() {
     AsyncFunction("lightStatus") Coroutine { -> dict(guarded { core().lightStatus() }) }
   }
 
-  private fun core(): MarigoldCore = core ?: throw CodedException("NotConfigured", "The wallet core has not been started.", null)
+  private fun core(): MarigoldCore = core ?: throw CodedException("NotConfigured", "marigold:NotConfigured:The wallet core has not been started.", null)
 
   /** Runs a call of the core and turns its errors into exceptions that carry the words for the person. */
   private inline fun <T> guarded(body: () -> T): T {
     try {
       return body()
     } catch (e: WalletException.NoWalletOpen) {
-      throw CodedException("NoWalletOpen", "No wallet is open.", null)
+      throw CodedException("NoWalletOpen", "marigold:NoWalletOpen:No wallet is open.", null)
     } catch (e: WalletException.Network) {
-      throw CodedException("Network", e.text, null)
+      throw CodedException("Network", "marigold:Network:${e.text}", null)
     } catch (e: WalletException.Failed) {
-      throw CodedException("Failed", e.text, null)
+      throw CodedException("Failed", "marigold:Failed:${e.text}", null)
     }
   }
 

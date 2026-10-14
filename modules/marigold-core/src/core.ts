@@ -26,11 +26,16 @@ export class WalletError extends Error {
   }
 }
 
-/** The core's errors arrive from the native side with a code and the words; anything else is left as it is. */
+/**
+ * The core's errors arrive from the native side wrapped by Expo ("Call to function … has been rejected. → Caused by: …"),
+ * which hides the code. The native modules therefore put a marker in front of the words, `marigold:<code>:<words>`, and
+ * this takes it out again. Anything else is left as it is.
+ */
 function translated(error: unknown): unknown {
-  const code = (error as { code?: unknown } | null)?.code;
-  if (code === 'NoWalletOpen' || code === 'Network' || code === 'Failed' || code === 'NotConfigured') {
-    return new WalletError(code, (error as Error).message);
+  const message = (error as { message?: unknown } | null)?.message;
+  if (typeof message === 'string') {
+    const marked = /marigold:(NoWalletOpen|Network|Failed|NotConfigured):([\s\S]*)$/.exec(message);
+    if (marked) return new WalletError(marked[1] as WalletErrorCode, marked[2].trim());
   }
   return error;
 }

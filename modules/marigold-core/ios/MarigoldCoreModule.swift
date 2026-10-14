@@ -161,7 +161,8 @@ public class MarigoldCoreModule: Module {
 
 /// An error of the core, with the code JavaScript tells it by and the words to show.
 func coreException(_ kind: String, _ words: String) -> Exception {
-  Exception(name: kind, description: words, code: kind)
+  // Expo wraps what a function throws and hides the code; the marker carries it to the TypeScript wrapper.
+  Exception(name: kind, description: "marigold:\(kind):\(words)", code: kind)
 }
 
 func coreException(_ error: WalletError) -> Exception {
