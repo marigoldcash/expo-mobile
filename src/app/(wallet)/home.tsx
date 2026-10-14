@@ -1,9 +1,10 @@
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Body, Problem, Screen, Title } from '../../components/ui';
 import { useConnection } from '../../lib/connection';
 import { core, wordsFor } from '../../lib/core';
+import { takePendingCode } from '../../lib/links';
 import { openWallet } from '../../lib/session';
 
 /** The open wallet: what it holds, how it reaches the network, and what happened last. */
@@ -26,6 +27,9 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       refresh();
+      // A link that was opened before the wallet was: its code goes to the Pay screen now.
+      const waiting = takePendingCode();
+      if (waiting) router.push({ pathname: '/pay', params: { code: waiting } });
     }, [refresh]),
   );
   useEffect(() => {

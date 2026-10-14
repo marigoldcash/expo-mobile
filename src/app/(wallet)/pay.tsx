@@ -1,5 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
-import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 import { Body, Button, Field, Problem, Screen, Title } from '../../components/ui';
 import { core, wordsFor } from '../../lib/core';
@@ -14,6 +15,13 @@ export default function Pay() {
   const [taken, setTaken] = useState('');
   const [problem, setProblem] = useState('');
   const [busy, setBusy] = useState(false);
+  const params = useLocalSearchParams<{ code?: string }>();
+
+  // A code handed to the app, by a link or the camera, arrives here already filled in.
+  useEffect(() => {
+    if (params.code) look(params.code);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.code]);
 
   function look(text: string) {
     setCode(text);
@@ -60,6 +68,7 @@ export default function Pay() {
     <Screen inTabs>
       <Title>Pay or take a code</Title>
       <Field label="The code" testID="code" value={code} onChangeText={look} multiline numberOfLines={3} submitBehavior="blurAndSubmit" />
+      <Button label="Scan with the camera" quiet testID="scan" onPress={() => router.push('/scan')} />
       <Button label="Paste from the clipboard" quiet testID="paste" onPress={async () => look(await Clipboard.getStringAsync())} />
       {preview?.kind === 'request' ? (
         <>

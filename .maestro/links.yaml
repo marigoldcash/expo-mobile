@@ -1,0 +1,82 @@
+# PH-M9: a link handed to the app opens the Pay screen with its code filled in: with a wallet open, and with none open (the code
+# waits and goes there once a wallet is). The link is what a message, another app or Share would hand over.
+# Needs the network.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "create-wallet"
+    timeout: 90000
+- tapOn:
+    id: "create-wallet"
+- tapOn:
+    id: "wallet-name"
+- inputText: "links"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn:
+    id: "pin-again"
+- inputText: "1234"
+- tapOn: "Make a new wallet"
+- tapOn:
+    id: "make-wallet"
+- extendedWaitUntil:
+    visible: "Your wallet is made"
+    timeout: 120000
+- runFlow: subflows/check-words.yaml
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn: "Open links"
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
+
+# A request is made, and its link opens the Pay screen
+- tapOn:
+    id: "tab-receive"
+- tapOn:
+    id: "make-request"
+- extendedWaitUntil:
+    visible:
+      id: "request-code"
+    timeout: 60000
+- copyTextFrom:
+    id: "request-code"
+- evalScript: ${output.code = maestro.copiedText.trim()}
+- openLink: marigoldreq:${output.code}
+- extendedWaitUntil:
+    visible: "A request that lets you choose the amount."
+    timeout: 30000
+
+# No wallet open: the link waits, and goes to Pay once a wallet is opened
+- tapOn:
+    id: "tab-settings"
+- scrollUntilVisible:
+    element:
+      id: "close-wallet"
+    centerElement: true
+- tapOn:
+    id: "close-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "wallet-links"
+    timeout: 30000
+- openLink: marigoldpay:${output.code}
+- tapOn:
+    id: "wallet-links"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn: "Open links"
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible: "A request that lets you choose the amount."
+    timeout: 120000

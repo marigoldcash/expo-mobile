@@ -1,10 +1,11 @@
 import * as Clipboard from 'expo-clipboard';
 import { useEffect, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Share, Text, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Body, Button, Field, Problem, Screen, Title } from '../../components/ui';
 import { core, wordsFor } from '../../lib/core';
+import { requestLink } from '../../lib/links';
 
 /** A request for payment: a code, as text and as a QR, and a word when it has been paid. */
 export default function Receive() {
@@ -68,6 +69,7 @@ export default function Receive() {
             {request.code}
           </Text>
           <Button label="Copy the code" quiet testID="copy-request" onPress={() => Clipboard.setStringAsync(request.code)} />
+          <Button label="Share it" quiet testID="share-request" onPress={() => Share.share({ message: requestLink(request.code) })} />
           {paid ? <Body testID="paid">{paid}</Body> : <Body>Waiting for it to be paid. You can leave this screen open.</Body>}
         </View>
       ) : null}

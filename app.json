@@ -48,8 +48,18 @@
         {
           "faceIDPermission": "Marigold uses Face ID so that you do not have to type your PIN each time."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Marigold uses the camera to read a payment code you point it at."
+        }
       ]
     ],
-    "scheme": "marigold"
+    "scheme": [
+      "marigold",
+      "marigoldpay",
+      "marigoldreq"
+    ]
   }
 }
