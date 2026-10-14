@@ -111,6 +111,9 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "save-node"
 - assertVisible: "That is not an address of a node. It looks like ws://192.168.1.20:17210. Leave it empty to use a public computer."
+- scrollUntilVisible:
+    element:
+      id: "pin-old"
 - tapOn:
     id: "pin-old"
 - inputText: "9999"
