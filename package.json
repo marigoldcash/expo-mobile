@@ -21,6 +21,7 @@
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "29.5.14",
     "@types/react": "~19.2.2",
+    "fflate": "^0.8.3",
     "jest": "~29.7.0",
     "jest-expo": "~57.0.6",
     "react-test-renderer": "19.2.3",
@@ -33,7 +34,8 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
-    "doctor": "expo-doctor"
+    "doctor": "expo-doctor",
+    "fetch-core": "node scripts/fetch-core.js"
   },
   "private": true,
   "jest": {
