@@ -6,7 +6,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, type TextInputProps
 
 export function Screen({ children }: { children: ReactNode }) {
   return (
-    <ScrollView contentContainerStyle={styles.screen} keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={styles.screen} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
       {children}
     </ScrollView>
   );
@@ -28,10 +28,10 @@ export function Body({ children, testID }: { children: ReactNode; testID?: strin
   );
 }
 
-export function Problem({ children }: { children: string }) {
+export function Problem({ children, testID = 'problem' }: { children: string; testID?: string }) {
   if (!children) return null;
   return (
-    <Text accessibilityLiveRegion="polite" style={styles.problem} testID="problem">
+    <Text accessibilityLiveRegion="polite" style={styles.problem} testID={testID}>
       {children}
     </Text>
   );

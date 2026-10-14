@@ -12,6 +12,8 @@ import { advancedOn, nodeChoice, nodeChoiceLooksRight, setAdvanced, setNodeChoic
 export default function Settings() {
   const [node, setNode] = useState('');
   const [advanced, setAdvancedState] = useState(false);
+  const [nodeNote, setNodeNote] = useState('');
+  const [nodeProblem, setNodeProblem] = useState('');
   const [saved, setSaved] = useState('');
   const [old, setOld] = useState('');
   const [fresh, setFresh] = useState('');
@@ -24,14 +26,14 @@ export default function Settings() {
   }, []);
 
   async function saveNode() {
-    setProblem('');
-    setSaved('');
+    setNodeProblem('');
+    setNodeNote('');
     if (!nodeChoiceLooksRight(node)) {
-      setProblem('That is not an address of a node. It looks like ws://192.168.1.20:17210. Leave it empty to use a public computer.');
+      setNodeProblem('That is not an address of a node. It looks like ws://192.168.1.20:17210. Leave it empty to use a public computer.');
       return;
     }
     await setNodeChoice(node);
-    setSaved('Saved. It is used the next time you open the wallet.');
+    setNodeNote('Saved. It is used the next time you open the wallet.');
   }
 
   async function changePin() {
@@ -65,11 +67,15 @@ export default function Settings() {
       <Title>Settings</Title>
       <Field label="Your own node (leave empty for a public computer)" testID="node" value={node} onChangeText={setNode} placeholder="ws://192.168.1.20:17210" />
       <Button label="Save" quiet testID="save-node" onPress={saveNode} />
+      {nodeNote ? <Body testID="node-saved">{nodeNote}</Body> : null}
+      <Problem testID="node-problem">{nodeProblem}</Problem>
       <Title>Change your PIN</Title>
       <PinField label="The PIN now" testID="pin-old" value={old} onChangeText={setOld} />
       <PinField label={`The new PIN, at least ${MIN_PIN} characters`} testID="pin-new" value={fresh} onChangeText={setFresh} />
       <PinField label="The new PIN once more" testID="pin-new-again" value={again} onChangeText={setAgain} />
       <Button label="Change my PIN" testID="change-pin" onPress={changePin} />
+      {saved ? <Body testID="saved">{saved}</Body> : null}
+      <Problem>{problem}</Problem>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
         <Body>Advanced: allow a wallet without a PIN</Body>
         <Switch
@@ -81,8 +87,6 @@ export default function Settings() {
           }}
         />
       </View>
-      {saved ? <Body testID="saved">{saved}</Body> : null}
-      <Problem>{problem}</Problem>
       <Button label="Close the wallet" quiet testID="close-wallet" onPress={close} />
     </Screen>
   );

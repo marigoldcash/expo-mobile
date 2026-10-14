@@ -111,7 +111,6 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "save-node"
 - assertVisible: "That is not an address of a node. It looks like ws://192.168.1.20:17210. Leave it empty to use a public computer."
-- eraseText: 30
 - tapOn:
     id: "pin-old"
 - inputText: "9999"
@@ -121,23 +120,34 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "pin-new-again"
 - inputText: "5678"
-- tapOn:
-    id: "title"
+- scrollUntilVisible:
+    element:
+      id: "change-pin"
 - tapOn:
     id: "change-pin"
-- assertVisible: "That is not this wallet's password; nothing was changed."
+- extendedWaitUntil:
+    visible: "That is not this wallet's password; nothing was changed."
+    timeout: 60000
+- scrollUntilVisible:
+    element:
+      id: "pin-old"
+    direction: UP
 - tapOn:
     id: "pin-old"
 - eraseText: 10
 - inputText: "1234"
-- tapOn:
-    id: "title"
+- scrollUntilVisible:
+    element:
+      id: "change-pin"
 - tapOn:
     id: "change-pin"
 - extendedWaitUntil:
     visible:
       id: "saved"
     timeout: 60000
+- scrollUntilVisible:
+    element:
+      id: "close-wallet"
 
 # Close, open with the new PIN
 - tapOn:
