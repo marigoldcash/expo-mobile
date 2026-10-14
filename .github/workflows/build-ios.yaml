@@ -76,6 +76,13 @@ jobs:
           sleep 60
           maestro test .maestro-network/background-and-back.yaml
 
+      - name: What the app logged, when the background step failed
+        if: failure()
+        run: |
+          ls -la ~/Library/Logs/DiagnosticReports 2>/dev/null | head -20
+          for f in ~/Library/Logs/DiagnosticReports/Marigold*; do [ -f "$f" ] && head -60 "$f"; done
+          xcrun simctl spawn booted log show --style compact --last 20m --predicate 'process == "Marigold"' 2>/dev/null | grep -iE "error|fatal|crash|abort|panic|terminat|signal" | head -60
+
       # Face ID through the simulator's own notifications is still being worked out (PH-M5 in PLAN.md): the flow runs and
       # reports, but does not fail the build.
       - name: Open with Face ID (not yet reliable)
