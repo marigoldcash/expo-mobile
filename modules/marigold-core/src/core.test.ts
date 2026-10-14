@@ -124,6 +124,16 @@ describe('errors', () => {
   });
 });
 
+describe('errors from iOS', () => {
+  it('lose the place in the code that Expo appends', async () => {
+    const { native, core } = standIn();
+    native.balance.mockRejectedValueOnce(
+      Object.assign(new Error("marigold:Failed:That is not this wallet's password. (at MarigoldCoreExpo/MarigoldCoreModule.swift:165)"), { code: 'ERR_FUNCTION_CALL_REJECTED' }),
+    );
+    await expect(core.balance()).rejects.toMatchObject({ code: 'Failed', message: "That is not this wallet's password." });
+  });
+});
+
 describe('events', () => {
   it('are subscribed by name and can be removed', () => {
     const { native, core } = standIn();

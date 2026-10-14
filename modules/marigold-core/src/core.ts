@@ -35,7 +35,8 @@ function translated(error: unknown): unknown {
   const message = (error as { message?: unknown } | null)?.message;
   if (typeof message === 'string') {
     const marked = /marigold:(NoWalletOpen|Network|Failed|NotConfigured):([\s\S]*)$/.exec(message);
-    if (marked) return new WalletError(marked[1] as WalletErrorCode, marked[2].trim());
+    if (marked) // iOS adds where the exception was made, " (at File.swift:12)"; it is not for the person.
+    return new WalletError(marked[1] as WalletErrorCode, marked[2].replace(/\s*\(at [^()]*\)\s*$/, '').trim());
   }
   return error;
 }
