@@ -70,6 +70,9 @@ appId: cash.marigold.wallet
 - eraseText: 40
 - inputText: ${maestro.copiedText.trim()}
 - assertVisible: "A request that lets you choose the amount."
+# Putting the keyboard away, by touching the heading, so the tabs can be reached.
+- tapOn:
+    id: "title"
 
 # History
 - tapOn:
@@ -87,6 +90,8 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "words-pin"
 - inputText: "1234"
+- tapOn:
+    id: "title"
 - tapOn:
     id: "words-confirm"
 - extendedWaitUntil:
@@ -116,7 +121,8 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "pin-new-again"
 - inputText: "5678"
-- tapOn: "Settings"
+- tapOn:
+    id: "title"
 - tapOn:
     id: "change-pin"
 - assertVisible: "That is not this wallet's password; nothing was changed."
@@ -124,7 +130,8 @@ appId: cash.marigold.wallet
     id: "pin-old"
 - eraseText: 10
 - inputText: "1234"
-- tapOn: "Settings"
+- tapOn:
+    id: "title"
 - tapOn:
     id: "change-pin"
 - extendedWaitUntil:

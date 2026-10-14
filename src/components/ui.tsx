@@ -14,7 +14,7 @@ export function Screen({ children }: { children: ReactNode }) {
 
 export function Title({ children }: { children: ReactNode }) {
   return (
-    <Text accessibilityRole="header" style={styles.title}>
+    <Text accessibilityRole="header" style={styles.title} testID="title">
       {children}
     </Text>
   );
