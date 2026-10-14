@@ -48,7 +48,7 @@ public class MarigoldCoreModule: Module {
       Self.dict(try await self.guarded { try await self.core().open(wallet: wallet, password: password, node: node) })
     }
     AsyncFunction("closeWallet") { () async throws in
-      try await self.core().close()
+      try await self.core().closeWallet()
     }
     AsyncFunction("balance") { () async throws -> String in
       try await self.guarded { try await self.core().balance() }
