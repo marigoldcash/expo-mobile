@@ -5,7 +5,7 @@ import Foundation
 /// with the records as dictionaries, the errors as exceptions that carry the words to show, and the core's events
 /// as module events. The typed wrapper over this is `src/index.ts`.
 public class MarigoldCoreModule: Module {
-  private var core: MarigoldCore?
+  private var current: MarigoldCore?
   private let ears = Ears()
 
   public func definition() -> ModuleDefinition {
@@ -28,7 +28,7 @@ public class MarigoldCoreModule: Module {
       try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
       let made = try self.guarded { try MarigoldCore(dataDir: folder.path, network: network) }
       made.setListener(listener: self.ears)
-      self.core = made
+      self.current = made
       return Self.dict(made.probe())
     }
 
@@ -110,8 +110,8 @@ public class MarigoldCoreModule: Module {
   }
 
   private func core() throws -> MarigoldCore {
-    guard let core else { throw coreException("NotConfigured", "The wallet core has not been started.") }
-    return core
+    guard let current else { throw coreException("NotConfigured", "The wallet core has not been started.") }
+    return current
   }
 
   /// Runs a call of the core and turns its errors into exceptions that carry the words for the person.
