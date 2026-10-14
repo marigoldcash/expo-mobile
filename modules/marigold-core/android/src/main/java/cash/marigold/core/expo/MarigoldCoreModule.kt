@@ -91,6 +91,11 @@ class MarigoldCoreModule : Module() {
     AsyncFunction("backupDecline") Coroutine { -> guarded { core().backupDecline() } }
     AsyncFunction("backupCover") Coroutine { name: String, words: String -> guarded { core().backupCover(name, words) } }
     AsyncFunction("telegramSetup") Coroutine { token: String, pin: String -> guarded { core().telegramSetup(token, pin) } }
+    AsyncFunction("connection") Coroutine { ->
+      val r = guarded { core().connection() }
+      mapOf("connected" to r.connected, "words" to r.words)
+    }
+    AsyncFunction("resume") Coroutine { -> guarded { core().resume() } }
     AsyncFunction("lightStatus") Coroutine { -> dict(guarded { core().lightStatus() }) }
   }
 

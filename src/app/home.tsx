@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 
+import { useConnection } from '../lib/connection';
 import { core, wordsFor } from '../lib/core';
 
 /** The open wallet: its balance and how it reaches the network. PH-M7b makes this the real Home screen. */
@@ -10,6 +11,7 @@ export default function Home() {
   const [balance, setBalance] = useState('');
   const [status, setStatus] = useState('');
   const [problem, setProblem] = useState('');
+  const connection = useConnection();
 
   useEffect(() => {
     (async () => {
@@ -34,6 +36,9 @@ export default function Home() {
       </Text>
       <Text style={styles.text} testID="balance">
         {balance}
+      </Text>
+      <Text style={styles.text} testID="connection" accessibilityLiveRegion="polite">
+        {connection.words}
       </Text>
       <Text style={styles.text}>{status}</Text>
       {problem ? <Text style={styles.problem}>{problem}</Text> : null}

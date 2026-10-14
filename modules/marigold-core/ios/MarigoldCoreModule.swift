@@ -109,6 +109,13 @@ public class MarigoldCoreModule: Module {
     AsyncFunction("telegramSetup") { (token: String, pin: String) async throws -> String in
       try await self.guarded { try await self.core().telegramSetup(token: token, pin: pin) }
     }
+    AsyncFunction("connection") { () async throws -> [String: Any] in
+      let r = try await self.guarded { try await self.core().connection() }
+      return ["connected": r.connected, "words": r.words]
+    }
+    AsyncFunction("resume") { () async throws in
+      try await self.guarded { try await self.core().resume() }
+    }
     AsyncFunction("lightStatus") { () async throws -> [String: Any] in
       Self.dict(try await self.guarded { try await self.core().lightStatus() })
     }

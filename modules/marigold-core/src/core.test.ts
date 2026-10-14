@@ -31,6 +31,8 @@ function standIn() {
     backupCover: undefined,
     telegramSetup: '1234',
     lightStatus: { active: true, notes: 951, anchoredDaa: 33789900, checkedMs: 1 },
+    connection: { connected: true, words: 'Using: a public computer, with your own copy of the notes.' },
+    resume: undefined,
   } as const;
   const native: Record<string, jest.Mock> = {};
   for (const [name, answer] of Object.entries(answers)) {
@@ -84,6 +86,9 @@ describe('every operation of the core', () => {
     await core.backupCover('ph', 'one two');
     expect(await core.telegramSetup('token', '1234')).toBe('1234');
     expect(await core.lightStatus()).toEqual(answers.lightStatus);
+    expect(await core.connection()).toEqual(answers.connection);
+    await core.resume();
+    expect(native.resume).toHaveBeenCalledTimes(1);
   });
 
   it('is exactly the operations the native side has, no more and no fewer', () => {

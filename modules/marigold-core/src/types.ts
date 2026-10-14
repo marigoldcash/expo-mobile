@@ -75,6 +75,12 @@ export interface BackupInfo {
   folder: string | null;
 }
 
+/** How the wallet reaches the network right now, in words for the person. */
+export interface ConnectionInfo {
+  connected: boolean;
+  words: string;
+}
+
 /** What the app hears from the core while a wallet is open. */
 export interface CoreEvents {
   /** A line for the person, in plain words. */

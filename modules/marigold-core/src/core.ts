@@ -2,6 +2,7 @@ import type { MarigoldCoreNative } from './MarigoldCoreModule';
 import type {
   BackupInfo,
   Classified,
+  ConnectionInfo,
   CoreEvents,
   Created,
   Given,
@@ -108,6 +109,10 @@ export function createCore(native: MarigoldCoreNative) {
     backupCover: (name: string, words: string): Promise<void> => asked(() => native.backupCover(name, words)),
     telegramSetup: (token: string, pin: string): Promise<string> => asked(() => native.telegramSetup(token, pin)),
     lightStatus: (): Promise<LightInfo> => asked(() => native.lightStatus()),
+    /** How the wallet reaches the network, in words: what a status line shows. */
+    connection: (): Promise<ConnectionInfo> => asked(() => native.connection()),
+    /** The app is in the foreground again or the network is back: reconnects if needed and refreshes the copy of the notes. */
+    resume: (): Promise<void> => asked(() => native.resume()),
     /** Hears the core while a wallet is open: `say`, `notesChanged`, `connection`. */
     on: <K extends keyof CoreEvents>(event: K, listener: (payload: CoreEvents[K]) => void): Subscription =>
       native.addListener(event, listener as never),

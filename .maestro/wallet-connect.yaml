@@ -1,0 +1,38 @@
+# PH-M6a: a wallet opens on a public computer and, within thirty seconds of the balance appearing, says so in words and
+# that it keeps its own copy of the notes. Needs the network.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "create-wallet"
+- tapOn:
+    id: "wallet-name"
+- inputText: "link"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn:
+    id: "pin-again"
+- inputText: "1234"
+- tapOn: "Make a new wallet"
+- tapOn:
+    id: "make-wallet"
+- extendedWaitUntil:
+    visible: "Your wallet is made"
+    timeout: 120000
+- tapOn:
+    id: "words-written"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn: "Open link"
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
+- extendedWaitUntil:
+    visible: "Using: a public computer, with your own copy of the notes."
+    timeout: 30000

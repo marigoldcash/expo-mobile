@@ -3,6 +3,7 @@ import { NativeModule, requireNativeModule } from 'expo';
 import type {
   BackupInfo,
   Classified,
+  ConnectionInfo,
   CoreEvents,
   Created,
   Given,
@@ -47,6 +48,8 @@ export declare class MarigoldCoreNative extends NativeModule<{
   backupCover(name: string, words: string): Promise<void>;
   telegramSetup(token: string, pin: string): Promise<string>;
   lightStatus(): Promise<LightInfo>;
+  connection(): Promise<ConnectionInfo>;
+  resume(): Promise<void>;
 }
 
 export default requireNativeModule<MarigoldCoreNative>('MarigoldCore');
