@@ -1,0 +1,57 @@
+# The app for an Android emulator, with the Rust core inside, started to read the version it reports.
+# A Release build carries its JavaScript, so no development server is needed. No Rust is installed or built here.
+name: Android emulator build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  emulator:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - run: npm ci
+
+      - name: Get the core
+        run: scripts/ci-get-core.sh
+
+      - name: Generate the native project
+        run: npx expo prebuild --platform android
+
+      - name: Build the app
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Let the emulator use the processor's virtualisation
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Start an emulator, install the app, read the version
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          script: |
+            adb install android/app/build/outputs/apk/release/app-release.apk
+            maestro test .maestro/start.yaml
