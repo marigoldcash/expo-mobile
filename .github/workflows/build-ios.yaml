@@ -46,6 +46,9 @@ jobs:
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
 
       - name: Start a simulator, install the app, read the version
+        env:
+          # A fresh runner's simulator spends a minute migrating before Maestro's driver can start.
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: "300000"
         run: |
           UDID=$(xcrun simctl list devices available -j | python3 -c '
           import json, sys
