@@ -25,8 +25,7 @@ appId: cash.marigold.wallet
 - extendedWaitUntil:
     visible: "Your wallet is made"
     timeout: 120000
-- tapOn:
-    id: "words-written"
+- runFlow: subflows/check-words.yaml
 - tapOn:
     id: "pin"
 - inputText: "1234"

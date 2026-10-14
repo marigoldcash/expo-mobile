@@ -44,6 +44,11 @@ export default function Start() {
           </Pressable>
         </Link>
       ))}
+      <Link href="/restore" asChild>
+        <Pressable accessibilityRole="button" style={[styles.button, styles.quiet]} testID="restore-wallet-link">
+          <Text style={[styles.buttonText, styles.quietText]}>Bring a wallet back from its 24 words</Text>
+        </Pressable>
+      </Link>
       <Link href="/create" asChild>
         <Pressable accessibilityRole="button" style={styles.button} testID="create-wallet">
           <Text style={styles.buttonText}>Make a new wallet</Text>
@@ -59,5 +64,7 @@ const styles = StyleSheet.create({
   version: { fontSize: 16, color: '#555555' },
   problem: { fontSize: 16, color: '#a00000', textAlign: 'center' },
   button: { backgroundColor: '#1d3a5f', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 8, minWidth: 240, alignItems: 'center' },
-  buttonText: { color: '#ffffff', fontSize: 18 },
+  buttonText: { color: '#ffffff', fontSize: 18, textAlign: 'center' },
+  quiet: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#1d3a5f' },
+  quietText: { color: '#1d3a5f' },
 });

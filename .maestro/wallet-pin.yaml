@@ -28,8 +28,7 @@ appId: cash.marigold.wallet
     timeout: 120000
 - assertVisible:
     id: "recovery-words"
-- tapOn:
-    id: "words-written"
+- runFlow: subflows/check-words.yaml
 # The app is closed and started again: nothing but the files of the wallet are left.
 - stopApp
 - launchApp

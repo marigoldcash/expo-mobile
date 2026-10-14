@@ -1,23 +1,30 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
+import { Switch, Text, View } from 'react-native';
 
+import { Body, Button, Field, PinField, Problem, Screen, Title } from '../components/ui';
 import { core, MIN_PIN, startCore, wordsFor } from '../lib/core';
 import { biometricsAvailable, rememberPin } from '../lib/secrets';
+import { advancedOn } from '../lib/settings';
+import { pickTwo, wordMatches } from '../lib/words';
 
-/** Makes a wallet: a name, a PIN, then the 24 words shown once. */
+/** Makes a wallet: a name, a PIN, the 24 words shown once, and two of them asked back. */
 export default function Create() {
   const [name, setName] = useState('');
   const [pin, setPin] = useState('');
   const [again, setAgain] = useState('');
   const [useBiometrics, setUseBiometrics] = useState(true);
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
+  const [advanced, setAdvanced] = useState(false);
   const [problem, setProblem] = useState('');
   const [made, setMade] = useState<{ filename: string; words: string } | null>(null);
+  const [asked, setAsked] = useState<[number, number]>([0, 1]);
+  const [typed, setTyped] = useState(['', '']);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     biometricsAvailable().then(setCanUseBiometrics);
+    advancedOn().then(setAdvanced);
   }, []);
 
   async function make() {
@@ -29,8 +36,9 @@ export default function Create() {
     setBusy(true);
     try {
       startCore();
-      const created = await core.createWallet(name.trim() || 'marigold', pin);
-      if (canUseBiometrics && useBiometrics) await rememberPin(created.filename, pin);
+      const created = await core.createWallet(name.trim() || 'marigold', pin, advanced);
+      if (canUseBiometrics && useBiometrics && pin !== '') await rememberPin(created.filename, pin);
+      setAsked(pickTwo(24));
       setMade(created);
     } catch (error) {
       setProblem(wordsFor(error));
@@ -40,62 +48,45 @@ export default function Create() {
   }
 
   if (made) {
+    const right = wordMatches(made.words, asked[0], typed[0]) && wordMatches(made.words, asked[1], typed[1]);
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text accessibilityRole="header" style={styles.title}>
-          Your wallet is made
-        </Text>
-        <Text style={styles.text}>
-          Write these 24 words on paper and keep the paper somewhere safe. They bring your wallet back if you lose this phone. This is the only time they are shown without your PIN.
-        </Text>
-        <Text selectable style={styles.words} testID="recovery-words">
+      <Screen>
+        <Title>Your wallet is made</Title>
+        <Body>Write these 24 words on paper, in this order, and keep the paper somewhere safe. They bring your wallet back if you lose this phone. They are shown now, and again later only against your PIN.</Body>
+        <Text selectable style={{ fontSize: 20, lineHeight: 30, backgroundColor: '#f4f4f4', padding: 12, borderRadius: 8 }} testID="recovery-words">
           {made.words}
         </Text>
-        <Pressable accessibilityRole="button" style={styles.button} testID="words-written" onPress={() => router.replace({ pathname: '/open', params: { wallet: made.filename } })}>
-          <Text style={styles.buttonText}>I have written them down</Text>
-        </Pressable>
-      </ScrollView>
+        <Body>To check the paper, type the words it has at these two places.</Body>
+        <View style={{ gap: 12 }}>
+          {asked.map((place, i) => (
+            <Field
+              key={place}
+              label={`Word number ${place + 1}`}
+              testID={`check-${i + 1}`}
+              value={typed[i]}
+              onChangeText={(text) => setTyped((now) => now.map((t, j) => (j === i ? text : t)))}
+            />
+          ))}
+        </View>
+        <Button label="I have written them down" disabled={!right} testID="words-written" onPress={() => router.replace({ pathname: '/open', params: { wallet: made.filename } })} />
+      </Screen>
     );
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <Text accessibilityRole="header" style={styles.title}>
-        Make a new wallet
-      </Text>
-      <Text style={styles.label}>Its name</Text>
-      <TextInput testID="wallet-name" style={styles.input} value={name} onChangeText={setName} placeholder="marigold" autoCapitalize="none" autoCorrect={false} />
-      <Text style={styles.label}>A PIN, at least {MIN_PIN} characters</Text>
-      <TextInput testID="pin" style={styles.input} value={pin} onChangeText={setPin} secureTextEntry textContentType="oneTimeCode" autoComplete="off" autoCapitalize="none" autoCorrect={false} />
-      <Text style={styles.label}>The PIN once more</Text>
-      <TextInput testID="pin-again" style={styles.input} value={again} onChangeText={setAgain} secureTextEntry textContentType="oneTimeCode" autoComplete="off" autoCapitalize="none" autoCorrect={false} />
+    <Screen>
+      <Title>Make a new wallet</Title>
+      <Field label="Its name" testID="wallet-name" value={name} onChangeText={setName} placeholder="marigold" />
+      <PinField label={`A PIN, at least ${MIN_PIN} characters`} testID="pin" value={pin} onChangeText={setPin} />
+      <PinField label="The PIN once more" testID="pin-again" value={again} onChangeText={setAgain} />
       {canUseBiometrics ? (
-        <View style={styles.row}>
-          <Text style={styles.text}>Open it with Face ID or my fingerprint</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+          <Body>Open it with Face ID or my fingerprint</Body>
           <Switch testID="use-biometrics" value={useBiometrics} onValueChange={setUseBiometrics} />
         </View>
       ) : null}
-      {problem ? (
-        <Text testID="problem" style={styles.problem}>
-          {problem}
-        </Text>
-      ) : null}
-      <Pressable accessibilityRole="button" disabled={busy} style={styles.button} testID="make-wallet" onPress={make}>
-        <Text style={styles.buttonText}>{busy ? 'Making it…' : 'Make my wallet'}</Text>
-      </Pressable>
-    </ScrollView>
+      <Problem>{problem}</Problem>
+      <Button label={busy ? 'Making it…' : 'Make my wallet'} disabled={busy} testID="make-wallet" onPress={make} />
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { padding: 24, gap: 12, backgroundColor: '#ffffff', flexGrow: 1, justifyContent: 'center' },
-  title: { fontSize: 26, fontWeight: '600' },
-  label: { fontSize: 16, color: '#333333' },
-  text: { fontSize: 16, color: '#333333', flexShrink: 1 },
-  words: { fontSize: 20, lineHeight: 30, backgroundColor: '#f4f4f4', padding: 12, borderRadius: 8 },
-  input: { borderWidth: 1, borderColor: '#999999', borderRadius: 8, padding: 12, fontSize: 18 },
-  row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
-  problem: { fontSize: 16, color: '#a00000' },
-  button: { backgroundColor: '#1d3a5f', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 8, alignItems: 'center' },
-  buttonText: { color: '#ffffff', fontSize: 18 },
-});

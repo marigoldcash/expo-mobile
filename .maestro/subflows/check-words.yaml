@@ -1,0 +1,23 @@
+# After the 24 words are shown: reads them and the two places the screen asks for, types those two words, and goes on.
+appId: cash.marigold.wallet
+---
+- copyTextFrom:
+    id: "recovery-words"
+- evalScript: ${output.words = maestro.copiedText.trim().split(/\s+/)}
+- copyTextFrom:
+    text: "Word number .*"
+    index: 0
+- evalScript: ${output.first = parseInt(maestro.copiedText.replace(/[^0-9]/g, ''))}
+- copyTextFrom:
+    text: "Word number .*"
+    index: 1
+- evalScript: ${output.second = parseInt(maestro.copiedText.replace(/[^0-9]/g, ''))}
+- tapOn:
+    id: "check-1"
+- inputText: ${output.words[output.first - 1]}
+- tapOn:
+    id: "check-2"
+- inputText: ${output.words[output.second - 1]}
+- tapOn: "Your wallet is made"
+- tapOn:
+    id: "words-written"
