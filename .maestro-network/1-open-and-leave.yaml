@@ -1,0 +1,38 @@
+# PH-M6b, part one: open a wallet, see it connected, and put the app in the background.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "create-wallet"
+    timeout: 90000
+- tapOn:
+    id: "create-wallet"
+- tapOn:
+    id: "wallet-name"
+- inputText: "net"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn:
+    id: "pin-again"
+- inputText: "1234"
+- tapOn: "Make a new wallet"
+- tapOn:
+    id: "make-wallet"
+- extendedWaitUntil:
+    visible: "Your wallet is made"
+    timeout: 120000
+- tapOn:
+    id: "words-written"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn: "Open net"
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible: "Using: a public computer, with your own copy of the notes."
+    timeout: 120000
+- pressKey: home

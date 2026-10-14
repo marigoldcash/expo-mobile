@@ -66,6 +66,16 @@ jobs:
           # Maestro's driver on a fresh simulator sometimes does not come up; the flows start from a clean state, so a second try is safe.
           maestro test .maestro || { xcrun simctl shutdown "$UDID"; xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b; maestro test .maestro; }
 
+      # PH-M6b, as far as a simulator goes: it has no network to switch off, so the app is opened, put in the background for a
+      # while and shown again.
+      - name: Background and back
+        env:
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: "180000"
+        run: |
+          maestro test .maestro-network/1-open-and-leave.yaml
+          sleep 60
+          maestro test .maestro-network/background-and-back.yaml
+
       # Face ID through the simulator's own notifications is still being worked out (PH-M5 in PLAN.md): the flow runs and
       # reports, but does not fail the build.
       - name: Open with Face ID (not yet reliable)

@@ -65,6 +65,14 @@ jobs:
           script: |
             adb install android/app/build/outputs/apk/release/app-release.apk
             maestro test .maestro || maestro test .maestro
+            # PH-M6b: in the background, the network gone, the app shown again, the network back.
+            maestro test .maestro-network/1-open-and-leave.yaml
+            sleep 60
+            adb shell cmd connectivity airplane-mode enable
+            sleep 20
+            maestro test .maestro-network/2-back-to-the-app.yaml
+            adb shell cmd connectivity airplane-mode disable
+            maestro test .maestro-network/3-back-in-the-foreground.yaml
 
       - name: Keep what Maestro saw, when it failed
         if: failure()

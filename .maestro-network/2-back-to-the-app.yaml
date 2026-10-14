@@ -1,0 +1,9 @@
+# PH-M6b, part two: the app comes back to the foreground, as the person returns to it. With the network gone (the
+# workflow turned it off) the status says so in words; with the network there it is current within thirty seconds.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible: "There is no connection to the network right now. Your wallet is safe, and it catches up when the connection is back."
+    timeout: 60000

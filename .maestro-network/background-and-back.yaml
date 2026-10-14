@@ -1,0 +1,9 @@
+# PH-M6b where the phone's network cannot be switched off (the iOS simulator): the app goes to the background and
+# comes back, and the status is current within thirty seconds.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible: "Using: a public computer, with your own copy of the notes."
+    timeout: 30000

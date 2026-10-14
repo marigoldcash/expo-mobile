@@ -1,0 +1,8 @@
+# PH-M6b, part three: the app is shown, the network is back, and the status is current again.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible: "Using: a public computer, with your own copy of the notes."
+    timeout: 90000
