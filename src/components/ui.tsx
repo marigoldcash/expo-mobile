@@ -4,9 +4,10 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, type TextInputProps
 // The few plain pieces every screen is made of. No styling pass yet (PH-M11): readable sizes, large touch targets, labels
 // that say what a field is, and an accessibility role on everything that is pressed.
 
-export function Screen({ children }: { children: ReactNode }) {
+/** `inTabs`: the screen sits above the tab bar, which on iOS floats over the content, so the end of it is scrolled clear. */
+export function Screen({ children, inTabs }: { children: ReactNode; inTabs?: boolean }) {
   return (
-    <ScrollView contentContainerStyle={styles.screen} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+    <ScrollView contentContainerStyle={[styles.screen, inTabs && styles.inTabs]} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
       {children}
     </ScrollView>
   );
@@ -63,6 +64,7 @@ export function PinField({ label, testID, ...input }: { label: string; testID: s
 
 const styles = StyleSheet.create({
   screen: { padding: 24, gap: 12, backgroundColor: '#ffffff', flexGrow: 1 },
+  inTabs: { paddingBottom: 140 },
   title: { fontSize: 26, fontWeight: '600', color: '#111111' },
   body: { fontSize: 16, color: '#333333', lineHeight: 22 },
   problem: { fontSize: 16, color: '#a00000' },

@@ -63,7 +63,7 @@ export default function Settings() {
   }
 
   return (
-    <Screen>
+    <Screen inTabs>
       <Title>Settings</Title>
       <Field label="Your own node (leave empty for a public computer)" testID="node" value={node} onChangeText={setNode} placeholder="ws://192.168.1.20:17210" />
       <Button label="Save" quiet testID="save-node" onPress={saveNode} />

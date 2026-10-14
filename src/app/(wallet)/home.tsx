@@ -36,7 +36,7 @@ export default function Home() {
   }, [refresh]);
 
   return (
-    <Screen>
+    <Screen inTabs>
       <Title>{openWallet() || 'Your wallet'}</Title>
       <Body testID="balance">{balance}</Body>
       <Body testID="connection">{connection.words}</Body>

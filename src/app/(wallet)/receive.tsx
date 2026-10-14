@@ -55,7 +55,7 @@ export default function Receive() {
   );
 
   return (
-    <Screen>
+    <Screen inTabs>
       <Title>Receive a payment</Title>
       <Body>Make a request and show it to the person paying you. Leave the amount empty to let them choose.</Body>
       <Field label="Amount (optional)" testID="amount" value={amount} onChangeText={setAmount} keyboardType="decimal-pad" />

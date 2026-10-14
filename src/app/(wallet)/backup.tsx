@@ -68,7 +68,7 @@ export default function Backup() {
   }
 
   return (
-    <Screen>
+    <Screen inTabs>
       <Title>Backup</Title>
       <Body testID="backup-destination">{info ? `Your backups go to: ${info.destination}.` : ''}</Body>
       <Body>Your 24 words, on paper, are what bring your wallet back. A backup brings back the notes it held.</Body>
