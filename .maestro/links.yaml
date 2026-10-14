@@ -51,6 +51,10 @@ appId: cash.marigold.wallet
     id: "request-code"
 - evalScript: ${output.code = maestro.copiedText.trim()}
 - openLink: marigoldreq:${output.code}
+# iOS asks before it hands a link to an app.
+- tapOn:
+    text: "Open"
+    optional: true
 - extendedWaitUntil:
     visible: "A request that lets you choose the amount."
     timeout: 30000
@@ -69,6 +73,9 @@ appId: cash.marigold.wallet
       id: "wallet-links"
     timeout: 30000
 - openLink: marigoldpay:${output.code}
+- tapOn:
+    text: "Open"
+    optional: true
 - tapOn:
     id: "wallet-links"
 - tapOn:
