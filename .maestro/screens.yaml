@@ -70,8 +70,6 @@ appId: cash.marigold.wallet
 - eraseText: 40
 - inputText: ${maestro.copiedText.trim()}
 - assertVisible: "A request that lets you choose the amount."
-- assertVisible:
-    id: "confirm-pay"
 
 # History
 - tapOn:

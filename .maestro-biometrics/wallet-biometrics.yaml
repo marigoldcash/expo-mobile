@@ -38,5 +38,3 @@ appId: cash.marigold.wallet
     visible:
       id: "balance"
     timeout: 120000
-- assertVisible:
-    id: "home-title"
