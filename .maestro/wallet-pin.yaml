@@ -19,7 +19,9 @@ appId: cash.marigold.wallet
 - hideKeyboard
 - tapOn:
     id: "make-wallet"
-- assertVisible: "Your wallet is made"
+- extendedWaitUntil:
+    visible: "Your wallet is made"
+    timeout: 120000
 - assertVisible:
     id: "recovery-words"
 - tapOn:

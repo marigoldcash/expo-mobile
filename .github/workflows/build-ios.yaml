@@ -72,3 +72,11 @@ jobs:
           FACE=$!
           maestro test .maestro-biometrics || { kill $FACE; exit 1; }
           kill $FACE
+
+      - name: Keep what Maestro saw, when it failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results
+          path: ~/.maestro/tests
+          if-no-files-found: ignore

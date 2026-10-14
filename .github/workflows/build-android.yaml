@@ -65,3 +65,11 @@ jobs:
           script: |
             adb install android/app/build/outputs/apk/release/app-release.apk
             maestro test .maestro
+
+      - name: Keep what Maestro saw, when it failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results
+          path: ~/.maestro/tests
+          if-no-files-found: ignore

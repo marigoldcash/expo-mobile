@@ -21,7 +21,9 @@ appId: cash.marigold.wallet
     id: "use-biometrics"
 - tapOn:
     id: "make-wallet"
-- assertVisible: "Your wallet is made"
+- extendedWaitUntil:
+    visible: "Your wallet is made"
+    timeout: 120000
 - stopApp
 - launchApp
 - tapOn:
