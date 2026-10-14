@@ -36,7 +36,7 @@ export default function Restore() {
       <Title>Bring a wallet back</Title>
       <Body>Type the 24 words of your wallet, with a space between them, and choose a PIN for this phone. The notes the wallet held come back from your latest backup.</Body>
       <Field label="Its name" testID="wallet-name" value={name} onChangeText={setName} placeholder="marigold" />
-      <Field label="The 24 words" testID="words" value={words} onChangeText={setWords} multiline numberOfLines={4} keyboardType="visible-password" spellCheck={false} />
+      <Field label="The 24 words" testID="words" value={words} onChangeText={setWords} multiline numberOfLines={4} keyboardType="visible-password" spellCheck={false} submitBehavior="blurAndSubmit" />
       <PinField label={`A PIN, at least ${MIN_PIN} characters`} testID="pin" value={pin} onChangeText={setPin} />
       <PinField label="The PIN once more" testID="pin-again" value={again} onChangeText={setAgain} />
       <Problem>{problem}</Problem>

@@ -59,7 +59,7 @@ export default function Pay() {
   return (
     <Screen>
       <Title>Pay or take a code</Title>
-      <Field label="The code" testID="code" value={code} onChangeText={look} multiline numberOfLines={3} />
+      <Field label="The code" testID="code" value={code} onChangeText={look} multiline numberOfLines={3} submitBehavior="blurAndSubmit" />
       <Button label="Paste from the clipboard" quiet testID="paste" onPress={async () => look(await Clipboard.getStringAsync())} />
       {preview?.kind === 'request' ? (
         <>
