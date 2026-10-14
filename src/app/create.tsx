@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Switch, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Switch, Text, TextInput, View } from 'react-native';
 
 import { Body, Button, Field, PinField, Problem, Screen, Title } from '../components/ui';
 import { core, MIN_PIN, startCore, wordsFor } from '../lib/core';
@@ -21,6 +21,7 @@ export default function Create() {
   const [asked, setAsked] = useState<[number, number]>([0, 1]);
   const [typed, setTyped] = useState(['', '']);
   const [busy, setBusy] = useState(false);
+  const second = useRef<TextInput>(null);
 
   useEffect(() => {
     biometricsAvailable().then(setCanUseBiometrics);
@@ -63,6 +64,9 @@ export default function Create() {
               key={place}
               label={`Word number ${place + 1}`}
               testID={`check-${i + 1}`}
+              inputRef={i === 1 ? second : undefined}
+              returnKeyType={i === 0 ? 'next' : 'done'}
+              onSubmitEditing={i === 0 ? () => second.current?.focus() : undefined}
               value={typed[i]}
               onChangeText={(text) => setTyped((now) => now.map((t, j) => (j === i ? text : t)))}
             />

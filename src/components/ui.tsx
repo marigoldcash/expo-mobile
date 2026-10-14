@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, type TextInputProps, View } from 'react-native';
 
 // The few plain pieces every screen is made of. No styling pass yet (PH-M11): readable sizes, large touch targets, labels
@@ -45,11 +45,11 @@ export function Button({ label, onPress, testID, disabled, quiet }: { label: str
   );
 }
 
-export function Field({ label, testID, ...input }: { label: string; testID: string } & TextInputProps) {
+export function Field({ label, testID, inputRef, ...input }: { label: string; testID: string; inputRef?: Ref<TextInput> } & TextInputProps) {
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput accessibilityLabel={label} autoCapitalize="none" autoCorrect={false} style={styles.input} testID={testID} {...input} />
+      <TextInput ref={inputRef} accessibilityLabel={label} autoCapitalize="none" autoCorrect={false} style={styles.input} testID={testID} {...input} />
     </View>
   );
 }

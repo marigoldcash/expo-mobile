@@ -15,9 +15,11 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "check-1"
 - inputText: ${output.words[output.first - 1]}
-- tapOn:
-    id: "check-2"
+- pressKey: Enter
 - inputText: ${output.words[output.second - 1]}
-- tapOn: "Your wallet is made"
+- pressKey: Enter
+- scrollUntilVisible:
+    element:
+      id: "words-written"
 - tapOn:
     id: "words-written"
