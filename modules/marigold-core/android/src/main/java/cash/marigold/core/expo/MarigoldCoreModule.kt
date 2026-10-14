@@ -45,6 +45,8 @@ class MarigoldCoreModule : Module() {
     Function("configure") { network: String? ->
       val context = appContext.reactContext ?: throw CodedException("NotConfigured", "The app is not ready yet.", null)
       val folder = File(context.filesDir, "wallets").apply { mkdirs() }
+      // An Android app has no home folder, and the wallet library looks for one (`~`) for its settings file.
+      android.system.Os.setenv("HOME", context.filesDir.path, true)
       val made = guarded { MarigoldCore(folder.path, network) }
       made.setListener(ears)
       core = made
