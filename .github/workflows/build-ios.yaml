@@ -14,7 +14,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       # Until a release of the core is pinned in marigold-core.json: the branch of marigoldcash/marigold whose latest Mobile core run is used.
-      CORE_BRANCH: mobile/PH-M5
+      CORE_BRANCH: mobile/PH-M6
     steps:
       - uses: actions/checkout@v4
 
