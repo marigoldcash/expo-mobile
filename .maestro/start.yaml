@@ -1,0 +1,5 @@
+# The app opens and says its name. Run with a development build installed: maestro test .maestro/start.yaml
+appId: cash.marigold.wallet
+---
+- launchApp
+- assertVisible: "Marigold"
