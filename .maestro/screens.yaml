@@ -1,0 +1,194 @@
+# PH-M7: every screen of an open wallet, one after the other, with what each does that needs no money: a request is made
+# and shown, a code that is nothing is said to be nothing, a request of the wallet's own is read before it is paid, the 24
+# words come back against the PIN and are the ones that were written down, the PIN is changed (refused with the wrong one),
+# the wallet is closed and opened with the new PIN, and brought back from its words on a clean install.
+# Needs the network. (What needs money in the wallet is shown by hand: PLAN.md, PH-M7b to PH-M7e.)
+appId: cash.marigold.wallet
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "create-wallet"
+    timeout: 90000
+- tapOn:
+    id: "create-wallet"
+- tapOn:
+    id: "wallet-name"
+- inputText: "screens"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn:
+    id: "pin-again"
+- inputText: "1234"
+- tapOn: "Make a new wallet"
+- tapOn:
+    id: "make-wallet"
+- extendedWaitUntil:
+    visible: "Your wallet is made"
+    timeout: 120000
+- runFlow: subflows/check-words.yaml
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn: "Open screens"
+- tapOn:
+    id: "open-wallet"
+
+# Home
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
+- extendedWaitUntil:
+    visible: "Using: a public computer, with your own copy of the notes."
+    timeout: 30000
+- assertVisible:
+    id: "latest"
+
+# Receive: a request, shown as text
+- tapOn:
+    id: "tab-receive"
+- tapOn:
+    id: "make-request"
+- extendedWaitUntil:
+    visible:
+      id: "request-code"
+    timeout: 60000
+- copyTextFrom:
+    id: "request-code"
+- assertTrue: ${maestro.copiedText.trim().length > 20}
+
+# Pay: nothing is nothing, the wallet's own request is read before it is paid
+- tapOn:
+    id: "tab-pay"
+- tapOn:
+    id: "code"
+- inputText: "this is not a code"
+- assertVisible: "This is not a code the wallet knows. Check that all of it was copied."
+- eraseText: 40
+- inputText: ${maestro.copiedText.trim()}
+- assertVisible: "A request that lets you choose the amount."
+- assertVisible:
+    id: "confirm-pay"
+
+# History
+- tapOn:
+    id: "tab-history"
+- assertVisible:
+    id: "history"
+
+# Backup: the words again, against the PIN, are the ones written down
+- tapOn:
+    id: "tab-backup"
+- assertVisible:
+    id: "backup-destination"
+- tapOn:
+    id: "show-words"
+- tapOn:
+    id: "words-pin"
+- inputText: "1234"
+- tapOn:
+    id: "words-confirm"
+- extendedWaitUntil:
+    visible:
+      id: "shown-words"
+    timeout: 30000
+- copyTextFrom:
+    id: "shown-words"
+- assertTrue: ${maestro.copiedText.trim() == output.words.join(' ')}
+
+# Settings: an address that is not a node is refused; the PIN changes only with the right one
+- tapOn:
+    id: "tab-settings"
+- tapOn:
+    id: "node"
+- inputText: "not an address"
+- tapOn:
+    id: "save-node"
+- assertVisible: "That is not an address of a node. It looks like ws://192.168.1.20:17210. Leave it empty to use a public computer."
+- eraseText: 30
+- tapOn:
+    id: "pin-old"
+- inputText: "9999"
+- tapOn:
+    id: "pin-new"
+- inputText: "5678"
+- tapOn:
+    id: "pin-new-again"
+- inputText: "5678"
+- tapOn: "Settings"
+- tapOn:
+    id: "change-pin"
+- assertVisible: "That is not this wallet's password; nothing was changed."
+- tapOn:
+    id: "pin-old"
+- eraseText: 10
+- inputText: "1234"
+- tapOn: "Settings"
+- tapOn:
+    id: "change-pin"
+- extendedWaitUntil:
+    visible:
+      id: "saved"
+    timeout: 60000
+
+# Close, open with the new PIN
+- tapOn:
+    id: "close-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "wallet-screens"
+    timeout: 30000
+- tapOn:
+    id: "wallet-screens"
+- tapOn:
+    id: "pin"
+- inputText: "5678"
+- tapOn: "Open screens"
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
+
+# A clean install, and the wallet brought back from its 24 words
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "restore-wallet-link"
+    timeout: 90000
+- tapOn:
+    id: "restore-wallet-link"
+- tapOn:
+    id: "wallet-name"
+- inputText: "again"
+- tapOn:
+    id: "words"
+- inputText: ${output.words.join(' ')}
+- tapOn: "Bring a wallet back"
+- tapOn:
+    id: "pin"
+- inputText: "4321"
+- tapOn:
+    id: "pin-again"
+- inputText: "4321"
+- tapOn: "Bring a wallet back"
+- tapOn:
+    id: "restore-wallet"
+- extendedWaitUntil:
+    visible: "Open again"
+    timeout: 120000
+- tapOn:
+    id: "pin"
+- inputText: "4321"
+- tapOn: "Open again"
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
