@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# The core for a CI job: the release pinned in marigold-core.json when there is one, and until the first release that
-# carries the core, the zips of the latest successful `Mobile core` run on a branch of marigoldcash/marigold
-# (CORE_BRANCH, default mobile/PH-M3c), which are the same two files a release will carry.
+# The core for a CI job: the release pinned in marigold-core.json. When none is pinned (a new core is being developed), the
+# zips of the latest successful `Mobile core` run on the branch CORE_BRANCH of marigoldcash/marigold, which are the same
+# two files a release carries.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."

@@ -1,7 +1,13 @@
 {
-  "tag": "",
+  "tag": "v2.89.347",
   "assets": {
-    "ios": { "url": "", "sha256": "" },
-    "android": { "url": "", "sha256": "" }
+    "ios": {
+      "url": "https://github.com/marigoldcash/marigold/releases/download/v2.89.347/marigold-core-2.89.347-ios.zip",
+      "sha256": "0488d3631a4f7691dd965654a8e6c098ee4943df65820ef59295651a5c970bb6"
+    },
+    "android": {
+      "url": "https://github.com/marigoldcash/marigold/releases/download/v2.89.347/marigold-core-2.89.347-android.zip",
+      "sha256": "429acd1fc39e48d798d9d28ced5814a62eb6f8ff6d1152b851b5e239623a025d"
+    }
   }
 }
