@@ -18,7 +18,8 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "cash.marigold.wallet"
+      "package": "cash.marigold.wallet",
+      "allowBackup": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,6 +40,13 @@
           "ios": {
             "deploymentTarget": "16.4"
           }
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Marigold uses Face ID so that you do not have to type your PIN each time."
         }
       ]
     ],

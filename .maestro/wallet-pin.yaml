@@ -1,0 +1,57 @@
+# PH-M5: make a wallet, close the app completely, open the wallet again with its PIN, and a wrong PIN says so.
+# Needs the network: opening a wallet connects to a public computer. Run with the app installed: maestro test .maestro/wallet-pin.yaml
+appId: cash.marigold.wallet
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Marigold"
+- tapOn:
+    id: "create-wallet"
+- tapOn:
+    id: "wallet-name"
+- inputText: "phone"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn:
+    id: "pin-again"
+- inputText: "1234"
+- hideKeyboard
+- tapOn:
+    id: "make-wallet"
+- assertVisible: "Your wallet is made"
+- assertVisible:
+    id: "recovery-words"
+- tapOn:
+    id: "words-written"
+# The app is closed and started again: nothing but the files of the wallet are left.
+- stopApp
+- launchApp
+- assertVisible:
+    id: "wallet-phone"
+- tapOn:
+    id: "wallet-phone"
+# A wrong PIN is refused in words.
+- tapOn:
+    id: "pin"
+- inputText: "9999"
+- hideKeyboard
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible: "That is not this wallet's password."
+    timeout: 60000
+# The right one opens it.
+- tapOn:
+    id: "pin"
+- eraseText: 20
+- inputText: "1234"
+- hideKeyboard
+- tapOn:
+    id: "open-wallet"
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
+- assertVisible:
+    id: "home-title"

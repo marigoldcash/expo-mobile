@@ -1,0 +1,35 @@
+# PH-M5: with a face (or a finger) enrolled in the phone, a wallet made with "open it with Face ID" opens after the app
+# is closed and started again without the PIN being typed. The check itself is answered from outside by the workflow
+# (the simulator's own "matching face" notification), as a person's face would.
+appId: cash.marigold.wallet
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "create-wallet"
+- tapOn:
+    id: "wallet-name"
+- inputText: "face"
+- tapOn:
+    id: "pin"
+- inputText: "1234"
+- tapOn:
+    id: "pin-again"
+- inputText: "1234"
+- hideKeyboard
+- assertVisible:
+    id: "use-biometrics"
+- tapOn:
+    id: "make-wallet"
+- assertVisible: "Your wallet is made"
+- stopApp
+- launchApp
+- tapOn:
+    id: "wallet-face"
+# No PIN is typed: the phone's check releases it, and the wallet opens.
+- extendedWaitUntil:
+    visible:
+      id: "balance"
+    timeout: 120000
+- assertVisible:
+    id: "home-title"

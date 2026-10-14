@@ -13,6 +13,8 @@ jobs:
     runs-on: macos-latest
     env:
       GH_TOKEN: ${{ github.token }}
+      # Until a release of the core is pinned in marigold-core.json: the branch of marigoldcash/marigold whose latest Mobile core run is used.
+      CORE_BRANCH: mobile/PH-M5
     steps:
       - uses: actions/checkout@v4
 
@@ -61,4 +63,12 @@ jobs:
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
           xcrun simctl install "$UDID" build/Build/Products/Release-iphonesimulator/Marigold.app
-          maestro test .maestro/start.yaml
+          maestro test .maestro
+
+          # A face enrolled in the phone, answered from outside as a person's face would be.
+          xcrun simctl spawn "$UDID" notifyutil -s com.apple.BiometricKit.enrollmentChanged 1
+          xcrun simctl spawn "$UDID" notifyutil -p com.apple.BiometricKit.enrollmentChanged
+          (while true; do xcrun simctl spawn "$UDID" notifyutil -p com.apple.BiometricKit_Sim.pearl.match; sleep 2; done) &
+          FACE=$!
+          maestro test .maestro-biometrics || { kill $FACE; exit 1; }
+          kill $FACE

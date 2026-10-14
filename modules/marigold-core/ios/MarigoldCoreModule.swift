@@ -26,6 +26,11 @@ public class MarigoldCoreModule: Module {
       let documents = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
       let folder = documents.appendingPathComponent("wallets", isDirectory: true)
       try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+      // The sealed backups (PH-M8) are the wallet's backup; the phone's own iCloud backup must not carry the wallet.
+      var excluded = folder
+      var values = URLResourceValues()
+      values.isExcludedFromBackup = true
+      try excluded.setResourceValues(values)
       let made = try self.guarded { try MarigoldCore(dataDir: folder.path, network: network) }
       made.setListener(listener: self.ears)
       self.current = made
