@@ -1,0 +1,24 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'cash.marigold.core.expo'
+version = '0.1.0'
+
+android {
+  namespace "cash.marigold.core.expo"
+  defaultConfig {
+    versionCode 1
+    versionName "0.1.0"
+  }
+  lintOptions {
+    abortOnError false
+  }
+}
+
+dependencies {
+  // What the generated Kotlin binding stands on: JNA loads the library, coroutines carry the async calls.
+  implementation "net.java.dev.jna:jna:5.17.0@aar"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
+}

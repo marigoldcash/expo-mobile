@@ -45,3 +45,5 @@ yarn-error.*
 /modules/marigold-core/ios/Generated/
 /modules/marigold-core/android/src/main/jniLibs/
 /modules/marigold-core/android/src/main/java/
+/core-download/
+/core-zips/

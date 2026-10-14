@@ -1,5 +1,7 @@
-# The app opens and says its name. Run with a development build installed: maestro test .maestro/start.yaml
+# The app opens, says its name and shows the version the Rust core reports (the version of the build under test).
+# Run with a development build installed: maestro test .maestro/start.yaml
 appId: cash.marigold.wallet
 ---
 - launchApp
 - assertVisible: "Marigold"
+- assertVisible: "Core [0-9]+\\.[0-9]+\\.[0-9]+"

@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["MarigoldCoreModule"]
+  },
+  "android": {
+    "modules": ["cash.marigold.core.expo.MarigoldCoreModule"]
+  }
+}
