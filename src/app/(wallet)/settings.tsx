@@ -73,9 +73,9 @@ export default function Settings() {
       <PinField label="The PIN now" testID="pin-old" value={old} onChangeText={setOld} />
       <PinField label={`The new PIN, at least ${MIN_PIN} characters`} testID="pin-new" value={fresh} onChangeText={setFresh} />
       <PinField label="The new PIN once more" testID="pin-new-again" value={again} onChangeText={setAgain} />
-      <Button label="Change my PIN" testID="change-pin" onPress={changePin} />
       {saved ? <Body testID="saved">{saved}</Body> : null}
       <Problem>{problem}</Problem>
+      <Button label="Change my PIN" testID="change-pin" onPress={changePin} />
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
         <Body>Advanced: allow a wallet without a PIN</Body>
         <Switch
