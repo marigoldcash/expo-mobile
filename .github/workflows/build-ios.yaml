@@ -30,11 +30,15 @@ jobs:
         run: npx expo prebuild --platform ios
 
       - name: Build for the simulator
-        shell: bash -eo pipefail {0}
         run: |
           xcodebuild -workspace ios/Marigold.xcworkspace -scheme Marigold -configuration Release \
             -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build \
-            ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO build | tail -60
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO build > xcodebuild.log 2>&1 || {
+              grep -E "error:|fatal error|Error:" xcodebuild.log | sort -u | head -40
+              tail -60 xcodebuild.log
+              exit 1
+            }
+          tail -5 xcodebuild.log
 
       - name: Install Maestro
         run: |
