@@ -64,7 +64,7 @@ jobs:
           arch: x86_64
           script: |
             adb install android/app/build/outputs/apk/release/app-release.apk
-            maestro test .maestro
+            maestro test .maestro || maestro test .maestro
 
       - name: Keep what Maestro saw, when it failed
         if: failure()

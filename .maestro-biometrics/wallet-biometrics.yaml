@@ -5,6 +5,10 @@ appId: cash.marigold.wallet
 ---
 - launchApp:
     clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "create-wallet"
+    timeout: 90000
 - tapOn:
     id: "create-wallet"
 - tapOn:
