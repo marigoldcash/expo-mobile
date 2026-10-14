@@ -1,8 +1,8 @@
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Switch, Text, TextInput, View } from 'react-native';
+import { Switch, TextInput, View } from 'react-native';
 
-import { Body, Button, Field, PinField, Problem, Screen, Title } from '../components/ui';
+import { Body, Button, Field, PinField, Problem, Screen, Title, WordsBox } from '../components/ui';
 import { core, MIN_PIN, startCore, wordsFor } from '../lib/core';
 import { biometricsAvailable, rememberPin } from '../lib/secrets';
 import { advancedOn } from '../lib/settings';
@@ -54,9 +54,7 @@ export default function Create() {
       <Screen>
         <Title>Your wallet is made</Title>
         <Body>Write these 24 words on paper, in this order, and keep the paper somewhere safe. They bring your wallet back if you lose this phone. They are shown now, and again later only against your PIN.</Body>
-        <Text selectable style={{ fontSize: 20, lineHeight: 30, backgroundColor: '#f4f4f4', padding: 12, borderRadius: 8 }} testID="recovery-words">
-          {made.words}
-        </Text>
+        <WordsBox testID="recovery-words">{made.words}</WordsBox>
         <Body>To check the paper, type the words it has at these two places.</Body>
         <View style={{ gap: 12 }}>
           {asked.map((place, i) => (
@@ -88,7 +86,7 @@ export default function Create() {
       {canUseBiometrics ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
           <Body>Open it with Face ID or my fingerprint</Body>
-          <Switch testID="use-biometrics" value={useBiometrics} onValueChange={setUseBiometrics} />
+          <Switch accessibilityLabel="Open it with Face ID or my fingerprint" testID="use-biometrics" value={useBiometrics} onValueChange={setUseBiometrics} />
         </View>
       ) : null}
       <Problem>{problem}</Problem>

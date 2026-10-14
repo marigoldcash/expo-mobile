@@ -6,6 +6,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { Body, Button, Field, Problem, Screen, Title } from '../../components/ui';
 import { core, wordsFor } from '../../lib/core';
 import { requestLink } from '../../lib/links';
+import { useTheme } from '../../lib/theme';
 
 /** A request for payment: a code, as text and as a QR, and a word when it has been paid. */
 export default function Receive() {
@@ -15,6 +16,7 @@ export default function Receive() {
   const [problem, setProblem] = useState('');
   const [busy, setBusy] = useState(false);
   const watching = useRef(0);
+  const theme = useTheme();
 
   async function make() {
     setProblem('');
@@ -64,8 +66,10 @@ export default function Receive() {
       <Problem>{problem}</Problem>
       {request ? (
         <View style={{ gap: 12, alignItems: 'center' }}>
-          <QRCode value={request.code} size={220} />
-          <Text selectable style={{ fontSize: 14 }} testID="request-code">
+          <View accessible accessibilityLabel="The request as a QR code, for the other phone to scan" style={{ backgroundColor: '#ffffff', padding: 12 }}>
+            <QRCode value={request.code} size={220} backgroundColor="#ffffff" color="#000000" />
+          </View>
+          <Text selectable style={{ fontSize: 14, color: theme.text }} testID="request-code">
             {request.code}
           </Text>
           <Button label="Copy the code" quiet testID="copy-request" onPress={() => Clipboard.setStringAsync(request.code)} />

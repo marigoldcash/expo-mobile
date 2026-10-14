@@ -22,8 +22,8 @@ export default function Open() {
     startCore();
     const heard = core.on('say', (event) => setSaid(event.line));
     try {
-      await core.open(wallet, typed, await nodeChoice());
-      setOpenWallet(wallet);
+      const opened = await core.open(wallet, typed, await nodeChoice());
+      setOpenWallet(wallet, opened.ticker);
       router.replace({ pathname: '/home', params: { wallet } });
     } catch (error) {
       setProblem(wordsFor(error));

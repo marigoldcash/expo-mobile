@@ -1,8 +1,7 @@
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Text } from 'react-native';
 
-import { Body, Button, PinField, Problem, Screen, Title } from '../../components/ui';
+import { Body, Button, PinField, Problem, Screen, Title, WordsBox } from '../../components/ui';
 import { core, wordsFor } from '../../lib/core';
 import { pinIsKept, recallPin } from '../../lib/secrets';
 import { openWallet } from '../../lib/session';
@@ -82,9 +81,7 @@ export default function Backup() {
         </>
       ) : null}
       {words ? (
-        <Text selectable style={{ fontSize: 20, lineHeight: 30, backgroundColor: '#f4f4f4', padding: 12, borderRadius: 8 }} testID="shown-words">
-          {words}
-        </Text>
+        <WordsBox testID="shown-words">{words}</WordsBox>
       ) : null}
       <Problem>{problem}</Problem>
     </Screen>

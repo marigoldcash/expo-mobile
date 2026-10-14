@@ -1,14 +1,17 @@
-import { Link, useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
+import { Button, Problem, Screen, Title } from '../components/ui';
 import { core, startCore, wordsFor } from '../lib/core';
+import { useTheme } from '../lib/theme';
 import type { WalletEntry } from '../../modules/marigold-core';
 
-/** The first screen: the name, the version of the Rust core, and the wallets on this phone. */
+/** The first screen: the name, the wallets on this phone, and the ways to make or bring one. The version is for support. */
 export default function Start() {
   const [wallets, setWallets] = useState<WalletEntry[] | null>(null);
   const [problem, setProblem] = useState('');
+  const theme = useTheme();
 
   useFocusEffect(
     useCallback(() => {
@@ -29,42 +32,24 @@ export default function Start() {
   );
 
   return (
-    <View style={styles.container}>
-      <Text accessibilityRole="header" style={styles.name}>
-        Marigold
-      </Text>
-      <Text testID="core-version" style={styles.version}>
-        Core {core.version()}
-      </Text>
-      {problem ? <Text style={styles.problem}>{problem}</Text> : null}
+    <Screen>
+      <View style={styles.centre}>
+        <Title>Marigold</Title>
+        <Text maxFontSizeMultiplier={2} style={[styles.version, { color: theme.quietText }]} testID="core-version">
+          Core {core.version()}
+        </Text>
+      </View>
+      <Problem>{problem}</Problem>
       {wallets?.map((wallet) => (
-        <Link key={wallet.filename} href={{ pathname: '/open', params: { wallet: wallet.filename } }} asChild>
-          <Pressable accessibilityRole="button" style={styles.button} testID={`wallet-${wallet.filename}`}>
-            <Text style={styles.buttonText}>{wallet.title}</Text>
-          </Pressable>
-        </Link>
+        <Button key={wallet.filename} label={wallet.title} testID={`wallet-${wallet.filename}`} onPress={() => router.push({ pathname: '/open', params: { wallet: wallet.filename } })} />
       ))}
-      <Link href="/restore" asChild>
-        <Pressable accessibilityRole="button" style={[styles.button, styles.quiet]} testID="restore-wallet-link">
-          <Text style={[styles.buttonText, styles.quietText]}>Bring a wallet back from its 24 words</Text>
-        </Pressable>
-      </Link>
-      <Link href="/create" asChild>
-        <Pressable accessibilityRole="button" style={styles.button} testID="create-wallet">
-          <Text style={styles.buttonText}>Make a new wallet</Text>
-        </Pressable>
-      </Link>
-    </View>
+      <Button label="Bring a wallet back from its 24 words" quiet testID="restore-wallet-link" onPress={() => router.push('/restore')} />
+      <Button label="Make a new wallet" testID="create-wallet" onPress={() => router.push('/create')} />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', gap: 12, padding: 24 },
-  name: { fontSize: 32, fontWeight: '600' },
-  version: { fontSize: 16, color: '#555555' },
-  problem: { fontSize: 16, color: '#a00000', textAlign: 'center' },
-  button: { backgroundColor: '#1d3a5f', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 8, minWidth: 240, alignItems: 'center' },
-  buttonText: { color: '#ffffff', fontSize: 18, textAlign: 'center' },
-  quiet: { backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#1d3a5f' },
-  quietText: { color: '#1d3a5f' },
+  centre: { alignItems: 'center', gap: 4, marginVertical: 24 },
+  version: { fontSize: 14 },
 });

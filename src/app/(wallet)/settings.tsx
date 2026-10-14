@@ -79,6 +79,7 @@ export default function Settings() {
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
         <Body>Advanced: allow a wallet without a PIN</Body>
         <Switch
+          accessibilityLabel="Advanced: allow a wallet without a PIN"
           testID="advanced"
           value={advanced}
           onValueChange={async (on) => {

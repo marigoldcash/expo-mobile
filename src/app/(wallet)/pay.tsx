@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Body, Button, Field, Problem, Screen, Title } from '../../components/ui';
 import { core, wordsFor } from '../../lib/core';
+import { withUnit } from '../../lib/session';
 import type { Classified, PaidOut } from '../../../modules/marigold-core';
 
 /** Pays a request code, or takes a note or hand-over somebody gave. Shows what it will do before it does it. */
@@ -72,7 +73,7 @@ export default function Pay() {
       <Button label="Paste from the clipboard" quiet testID="paste" onPress={async () => look(await Clipboard.getStringAsync())} />
       {preview?.kind === 'request' ? (
         <>
-          <Body testID="preview">{preview.amount ? `A request for ${preview.amount}.` : 'A request that lets you choose the amount.'}</Body>
+          <Body testID="preview">{preview.amount ? `A request for ${withUnit(preview.amount)}.` : 'A request that lets you choose the amount.'}</Body>
           {preview.amount ? null : <Field label="The amount to pay" testID="pay-amount" value={amount} onChangeText={setAmount} keyboardType="decimal-pad" />}
           <Button label={busy ? 'Paying…' : 'Pay it'} disabled={busy} testID="confirm-pay" onPress={pay} />
         </>
@@ -87,7 +88,7 @@ export default function Pay() {
       {preview?.kind === 'unknown' ? <Body testID="preview">This is not a code the wallet knows. Check that all of it was copied.</Body> : null}
       {paid ? (
         <Body testID="paid">
-          Paid {paid.value}, and {paid.fee} to the network. {paid.receipt}
+          Paid {withUnit(paid.value)}, and {withUnit(paid.fee)} to the network. {paid.receipt}
         </Body>
       ) : null}
       {taken ? <Body testID="taken">{taken}</Body> : null}
