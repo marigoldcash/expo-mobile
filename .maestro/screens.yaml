@@ -114,9 +114,17 @@ appId: cash.marigold.wallet
 - tapOn:
     id: "pin-old"
 - inputText: "9999"
+- pressKey: Enter
+- scrollUntilVisible:
+    element:
+      id: "pin-new"
 - tapOn:
     id: "pin-new"
 - inputText: "5678"
+- pressKey: Enter
+- scrollUntilVisible:
+    element:
+      id: "pin-new-again"
 - tapOn:
     id: "pin-new-again"
 - inputText: "5678"
