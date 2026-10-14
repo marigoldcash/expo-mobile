@@ -1,6 +1,7 @@
 # The app for the iOS simulator, with the Rust core inside, started on a simulator to read the version it reports.
 # The build is a Release one for the simulator: it carries its JavaScript, so no development server is needed
-# (a development build opens on the launcher, which has no screen to read). No Rust is installed or built here.
+# (a development build opens on the launcher, which has no screen to read). The core's simulator slice is for Apple
+# silicon (arm64), so the build is arm64 only. No Rust is installed or built here.
 name: iOS simulator build
 
 on:
@@ -29,10 +30,11 @@ jobs:
         run: npx expo prebuild --platform ios
 
       - name: Build for the simulator
+        shell: bash -eo pipefail {0}
         run: |
           xcodebuild -workspace ios/Marigold.xcworkspace -scheme Marigold -configuration Release \
             -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO build | tail -40
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO build | tail -60
 
       - name: Install Maestro
         run: |
