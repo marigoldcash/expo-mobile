@@ -73,7 +73,7 @@ Verify: a tester installs from TestFlight and from the Play internal track and c
 
 Do: the grandma-safe pass over every string, screen reader labels, large text, dark mode following the system; the terminal's exact phrasings reused where the same thing is said.
 
-Verify: a checklist in the pull request; two testers from the group who are not developers complete the four flows unaided. Done when: they do.
+Verify: a checklist in the pull request; two testers from the group who are not developers complete the four flows unaided. Done when: they do. Progress 2026-10-14 (the box stays open: it needs two testers who are not developers): colours are two palettes, light and dark, chosen by the phone's own setting (`userInterfaceStyle` automatic; `src/lib/theme.ts`), and a Jest test holds every text colour to 4.5 to 1 against what it is set on in both; text grows with the phone's text size, up to twice, in every screen (they are all built from `src/components/ui.tsx`, which also gives every touch target at least 48 points, a role to everything pressed and a label to every field, switch and the QR code); amounts show with their unit; errors say what happened and what to do (the core's words, shown under the button that caused them); the Android and iOS flows still pass. Still to do by hand: the checklist in a pull request, the grandma-safe read of every string by someone other than a developer (the terminal's exact phrasings are reused where the core makes the text; the screens' own text was written in the same voice), a screen reader pass on both phones, and the two testers.
 
 ### [ ] PH-M11b — Knowing when a payment arrived while the app was closed (after PH-M7, before the stores)
 
