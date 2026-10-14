@@ -58,8 +58,10 @@
     ],
     "scheme": [
       "marigold",
+      "marigoldreq",
       "marigoldpay",
-      "marigoldreq"
+      "marigoldpay2",
+      "marigoldnote"
     ]
   }
 }

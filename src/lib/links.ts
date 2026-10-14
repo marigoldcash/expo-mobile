@@ -1,24 +1,25 @@
-// The links the wallet opens: `marigoldpay:<code>` and `marigoldreq:<code>`, handed to it by another app, a message or the
-// camera. The part after the scheme is the code the Pay screen reads; a bare code (what a QR holds) is a code too.
+// The links the wallet opens. A code of the wallet is already a link: a request is `marigoldreq:…`, a hand-over
+// `marigoldpay:…` or `marigoldpay2:…`, a note `marigoldnote:…`. Another app, a message or the camera hands the whole text
+// over, and the Pay screen reads it as the code it is.
 
-const SCHEME = /^marigold(?:pay|req):(?:\/\/)?/i;
+const SCHEME = /^marigold(?:req|pay2?|note):(\/\/)?/i;
 
-/** The code inside a link, or the text itself when it is already a code; null for nothing. */
+/** The code in what was handed over: the text itself, without the `//` some apps put after a scheme; null for nothing. */
 export function codeFromLink(text: string | null | undefined): string | null {
   const trimmed = (text ?? '').trim();
   if (trimmed === '') return null;
-  const code = trimmed.replace(SCHEME, '').trim();
-  return code === '' ? null : code;
+  const code = trimmed.replace(SCHEME, (scheme) => scheme.replace('//', ''));
+  return code.replace(/^marigold(?:req|pay2?|note):\s*$/i, '') === '' ? null : code;
 }
 
-/** Whether the text is one of the wallet's own links. */
+/** Whether the text is one of the wallet's own links (a code). */
 export function isWalletLink(text: string): boolean {
   return SCHEME.test(text.trim());
 }
 
-/** The link that hands a request to another wallet: what Share sends. */
+/** What Share sends for a request: the request code, which is the link. */
 export function requestLink(code: string): string {
-  return `marigoldreq:${code}`;
+  return code;
 }
 
 // A code that arrived while no wallet was open waits here and is handed to the Pay screen once one is.
