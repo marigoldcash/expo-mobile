@@ -36,6 +36,16 @@ jobs:
         working-directory: android
         run: ./gradlew assembleRelease --no-daemon
 
+      # The same APK the emulator runs, for a phone: signed with the debug key, which Android accepts for a sideload and Google Play
+      # does not (the store build is PH-M10). It carries arm64-v8a (every phone sold in years) and x86_64 (emulators).
+      - name: Keep the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: marigold-android-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+          if-no-files-found: error
+
       - name: What the build generated, when it failed
         if: failure()
         run: |
